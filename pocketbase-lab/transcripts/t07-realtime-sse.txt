@@ -1,0 +1,25 @@
+# 1. Open the SSE stream in the background (curl -N http://127.0.0.1:8090/api/realtime)
+# 2. PB_CONNECT arrived with clientId: 7s82G6S5LUUd7YdIB4maXwd2SiIphzquW7OivUqB
+
+# 3. Tell the server what to watch: POST /api/realtime {clientId, subscriptions: [books/*]}
+ [HTTP 204]
+
+# 4. Change a record (rating 5 -> 4) with an ordinary PATCH
+{"id":"i3sx61mdseu5sne","title":"The Left Hand of Darkness","rating":4}
+
+# 5. Create a new record too
+{"id":"3ewe7ju468tco2f","title":"Realtime Test Book"}
+
+# 6. Everything the SSE stream delivered, verbatim:
+id:7s82G6S5LUUd7YdIB4maXwd2SiIphzquW7OivUqB
+event:PB_CONNECT
+data:{"clientId":"7s82G6S5LUUd7YdIB4maXwd2SiIphzquW7OivUqB"}
+
+id:7s82G6S5LUUd7YdIB4maXwd2SiIphzquW7OivUqB
+event:books/*
+data:{"record":{"author":"Ursula K. Le Guin","collectionId":"pbc_2170393721","collectionName":"books","cover":"cover_ucg8essb2t.png","id":"i3sx61mdseu5sne","owner":"dvlvswu2mrth2do","rating":4,"status":"finished","title":"The Left Hand of Darkness"},"action":"update"}
+
+id:7s82G6S5LUUd7YdIB4maXwd2SiIphzquW7OivUqB
+event:books/*
+data:{"record":{"author":"","collectionId":"pbc_2170393721","collectionName":"books","cover":"","id":"3ewe7ju468tco2f","owner":"dvlvswu2mrth2do","rating":0,"status":"reading","title":"Realtime Test Book"},"action":"create"}
+

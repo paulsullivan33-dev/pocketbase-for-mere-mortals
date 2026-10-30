@@ -1,0 +1,20 @@
+# A second user, Ben, signs up and logs in the same way Ada did.
+# Every books rule says: owner = @request.auth.id  — so Ben should see none of Ada's books.
+
+$ curl -s ".../api/collections/books/records" -H "Authorization: <Ben token>"   # Ben lists books
+{"totalItems":0,"items":[]}
+
+$ curl -s -w " [%{http_code}]" .../api/collections/books/records/i3sx61mdseu5sne -H "Authorization: <Ben token>"   # Ben asks for Ada's book by id
+{"data":{},"message":"The requested resource wasn't found.","status":404} [404]
+
+$ curl -s -X PATCH .../books/records/<Adas book> -H "Authorization: <Ben token>" -d {"rating":1}   # Ben tries to change it
+{"data":{},"message":"The requested resource wasn't found.","status":404} [404]
+
+$ curl -s -X POST .../books/records -H "Authorization: <Ben token>" -d {title: Forged, owner: dvlvswu2mrth2do}   # Ben tries to create a book owned by Ada
+{"data":{},"message":"Failed to create record.","status":400} [400]
+
+$ curl -s ".../api/collections/books/records"   # anonymous, no token at all
+{"totalItems":0,"items":[]}
+
+$ curl -s -X POST .../users/auth-with-password -d {identity: ada@example.org, password: wrong}   # a bad login
+{"data":{},"message":"Failed to authenticate.","status":400} [400]

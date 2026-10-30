@@ -1,0 +1,104 @@
+$ cat books-collection.json   (the collection definition: fields + API rules)
+{
+  "createRule": "owner = @request.auth.id",
+  "deleteRule": "owner = @request.auth.id",
+  "fields": [
+    {
+      "max": 200,
+      "min": 1,
+      "name": "title",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "max": 120,
+      "name": "author",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "maxSelect": 1,
+      "name": "status",
+      "required": false,
+      "type": "select",
+      "values": [
+        "want",
+        "reading",
+        "finished"
+      ]
+    },
+    {
+      "max": 5,
+      "min": 0,
+      "name": "rating",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "cascadeDelete": false,
+      "collectionId": "_pb_users_auth_",
+      "maxSelect": 1,
+      "name": "owner",
+      "required": true,
+      "type": "relation"
+    },
+    {
+      "maxSelect": 1,
+      "maxSize": 5242880,
+      "mimeTypes": [
+        "image/jpeg",
+        "image/png"
+      ],
+      "name": "cover",
+      "required": false,
+      "type": "file"
+    }
+  ],
+  "listRule": "owner = @request.auth.id",
+  "name": "books",
+  "type": "base",
+  "updateRule": "owner = @request.auth.id",
+  "viewRule": "owner = @request.auth.id"
+}
+
+$ curl -s -X POST .../api/collections -H "Authorization: <superuser token>" -d @books-collection.json
+{
+  "name": "books",
+  "id": "pbc_2170393721",
+  "type": "base",
+  "listRule": "owner = @request.auth.id",
+  "viewRule": "owner = @request.auth.id",
+  "createRule": "owner = @request.auth.id",
+  "updateRule": "owner = @request.auth.id",
+  "deleteRule": "owner = @request.auth.id",
+  "fields": [
+    {
+      "name": "id",
+      "type": "text"
+    },
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "author",
+      "type": "text"
+    },
+    {
+      "name": "status",
+      "type": "select"
+    },
+    {
+      "name": "rating",
+      "type": "number"
+    },
+    {
+      "name": "owner",
+      "type": "relation"
+    },
+    {
+      "name": "cover",
+      "type": "file"
+    }
+  ]
+}

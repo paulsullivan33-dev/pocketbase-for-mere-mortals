@@ -1,0 +1,17 @@
+$ curl -s -X POST .../api/backups -H "Authorization: <superuser token>" -d {name: "lab-backup.zip"} -w "[%{http_code}]"
+ [204]
+
+$ curl -s .../api/backups -H "Authorization: <superuser token>"
+[
+  {
+    "key": "lab-backup.zip",
+    "size": 231181
+  }
+]
+
+$ ls -la pb_data/backups
+total 236
+drwxrwx--- 1 root root     68 Oct 30 04:49 .
+drwxrwx--- 1 root root    244 Oct 30 04:49 ..
+-rw-rw---- 1 root root 231181 Oct 30 04:49 lab-backup.zip
+-rw-rw---- 1 root root    235 Oct 30 04:49 lab-backup.zip.attrs

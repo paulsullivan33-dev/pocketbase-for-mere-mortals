@@ -1,0 +1,34 @@
+$ ./pocketbase superuser create admin@example.org lab-admin-pass-123   # throwaway lab password
+Successfully created new superuser "admin@example.org"!
+
+$ ls pb_data
+auxiliary.db
+data.db
+types.d.ts
+
+$ ./pocketbase serve --http=127.0.0.1:8090   (started in the background; its log says:)
+2026/10/30 04:46:38 Server started at http://127.0.0.1:8090
+├─ REST API:  http://127.0.0.1:8090/api/
+└─ Dashboard: http://127.0.0.1:8090/_/
+
+$ curl -s http://127.0.0.1:8090/api/health
+{"message":"API is healthy.","code":200,"data":{}}
+
+$ curl -s http://127.0.0.1:8090/_/ | head -c 400   (the admin UI, served by the same binary)
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>PocketBase</title>
+    <script id="shablon-script" src="./libs/shablon/shablon.iife.js"></script>
+
+    <!-- uplot -->
+    <link rel="stylesheet" href="./libs/uplot/uplot.css" />
+    <script src="./libs/uplot/uplot.iife.js"></script>
+
+    <!--
+
+$ curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8090/_/
+200

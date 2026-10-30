@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My reading list</title>
+</head>
+<body>
+<h1>My reading list</h1>
+<p id="status">Loading…</p>
+<ul id="books"></ul>
+<script>
+  // A whole "app" in one page: log in, then list the books the
+  // API allows this reader to see. The rules do the privacy;
+  // this page never asks for anything it should not have.
+  const base = "http://127.0.0.1:8090";
+
+  async function main() {
+    const login = await fetch(base + "/api/collections/users/auth-with-password", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({identity: "ada@example.org", password: "ada-lab-pass-123"})
+    });
+    if (!login.ok) {
+      document.getElementById("status").textContent = "Login failed.";
+      return;
+    }
+    const {token} = await login.json();
+
+    const res = await fetch(base + "/api/collections/books/records?sort=title", {
+      headers: {"Authorization": token}
+    });
+    const data = await res.json();
+    document.getElementById("status").textContent =
+      data.totalItems + " book(s) on your list:";
+    const ul = document.getElementById("books");
+    for (const b of data.items) {
+      const li = document.createElement("li");
+      li.textContent = b.title + " — " + b.author + " (" + b.status + ")";
+      ul.appendChild(li);
+    }
+  }
+  main();
+</script>
+</body>
+</html>

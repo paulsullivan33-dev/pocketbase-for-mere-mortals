@@ -1,0 +1,75 @@
+$ curl -s -X POST .../api/collections/users/records -d {email, password, passwordConfirm}   # public sign-up, user Ada (throwaway lab password)
+{
+  "id": "dvlvswu2mrth2do",
+  "email": null,
+  "name": "Ada Reader",
+  "verified": false
+}
+
+# Ada logs in (POST /api/collections/users/auth-with-password) and her token is used below.
+
+$ curl -s -X POST .../api/collections/books/records -H "Authorization: <Ada token>" -d {title, author, status, rating, owner}
+{"title":"The Left Hand of Darkness","author":"Ursula K. Le Guin","status":"finished","rating":5}
+{"id":"i3sx61mdseu5sne","title":"The Left Hand of Darkness","status":"finished","rating":5,"owner":"dvlvswu2mrth2do"}
+{"title":"A Field Guide to Coastal Birds","author":"R. Alvarez","status":"reading","rating":4}
+{"id":"zhaz26wk752npgu","title":"A Field Guide to Coastal Birds","status":"reading","rating":4,"owner":"dvlvswu2mrth2do"}
+{"title":"The Making of Prince of Persia","author":"Jordan Mechner","status":"want"}
+{"id":"oxcuzdsaeglsbrt","title":"The Making of Prince of Persia","status":"want","rating":0,"owner":"dvlvswu2mrth2do"}
+
+$ curl -s ".../api/collections/books/records" -H "Authorization: <Ada token>"   # list all
+{
+  "page": 1,
+  "perPage": 30,
+  "totalItems": 3,
+  "totalPages": 1,
+  "titles": [
+    "The Left Hand of Darkness",
+    "A Field Guide to Coastal Birds",
+    "The Making of Prince of Persia"
+  ]
+}
+
+$ ...?filter=(status = "reading")   # filter expression in the URL
+{
+  "totalItems": 1,
+  "titles": [
+    "A Field Guide to Coastal Birds"
+  ]
+}
+
+$ ...?sort=-rating   # highest rating first
+[
+  {
+    "title": "The Left Hand of Darkness",
+    "rating": 5
+  },
+  {
+    "title": "A Field Guide to Coastal Birds",
+    "rating": 4
+  },
+  {
+    "title": "The Making of Prince of Persia",
+    "rating": 0
+  }
+]
+
+$ ...?perPage=2&page=1  then  page=2   # pagination
+{
+  "page": 1,
+  "perPage": 2,
+  "totalItems": 3,
+  "totalPages": 2,
+  "titles": [
+    "The Left Hand of Darkness",
+    "A Field Guide to Coastal Birds"
+  ]
+}
+{
+  "page": 2,
+  "perPage": 2,
+  "totalItems": 3,
+  "totalPages": 2,
+  "titles": [
+    "The Making of Prince of Persia"
+  ]
+}

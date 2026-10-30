@@ -1,0 +1,43 @@
+$ curl -s -X POST .../api/collections/_superusers/auth-with-password -d identity/password   (response trimmed to the shape)
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5...",
+  "record": {
+    "id": "s0yulywqoussjsh",
+    "email": "admin@example.org",
+    "collectionName": "_superusers"
+  }
+}
+
+$ curl -s .../api/collections -H "Authorization: <superuser token>" | jq names/types
+[
+  {
+    "name": "_mfas",
+    "type": "base",
+    "id": "pbc_2279338944"
+  },
+  {
+    "name": "_otps",
+    "type": "base",
+    "id": "pbc_1638494021"
+  },
+  {
+    "name": "_externalAuths",
+    "type": "base",
+    "id": "pbc_2281828961"
+  },
+  {
+    "name": "_authOrigins",
+    "type": "base",
+    "id": "pbc_4275539003"
+  },
+  {
+    "name": "_superusers",
+    "type": "auth",
+    "id": "pbc_3142635823"
+  },
+  {
+    "name": "users",
+    "type": "auth",
+    "id": "_pb_users_auth_"
+  }
+]

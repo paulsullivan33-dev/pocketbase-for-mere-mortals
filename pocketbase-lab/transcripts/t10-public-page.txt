@@ -1,0 +1,11 @@
+$ mkdir pb_public && cp reading-list-page.html pb_public/index.html   (page kept in the lab folder)
+
+$ curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8090/   # the same server now serves the page at its root
+200
+
+$ curl -s http://127.0.0.1:8090/ | grep -E "<title>|auth-with-password" 
+<title>My reading list</title>
+    const login = await fetch(base + "/api/collections/users/auth-with-password", {
+
+# the page itself only combines two API calls already proven in t04 and t05:
+# login as Ada (t05) and list books with the returned token (t04)

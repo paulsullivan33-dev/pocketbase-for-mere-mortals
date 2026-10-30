@@ -1,0 +1,28 @@
+site_name: PocketBase for Mere Mortals
+site_description: A whole backend in a single file you download and run. PocketBase gives a small project its database, its user logins, its file storage and a live API, and this guide builds a working reading list backend with it, checks every claim against the real program as it goes, and states the limits plainly.
+site_url: https://paulsullivan33-dev.github.io/pocketbase-for-mere-mortals/
+copyright: 'Part of <a href="https://paulsullivan33-dev.github.io/mere-mortals/">For Mere Mortals</a> · Text CC BY 4.0, code MIT'
+
+# Guides live at the repo root (nice for GitHub browsing).
+# The deploy workflow copies them into docs/ before building.
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - What PocketBase Is: what-pocketbase-is.md
+  - The Moving Parts: the-moving-parts.md
+  - Installing PocketBase: installing-pocketbase.md
+  - Your First Backend: your-first-backend.md
+  - Collections and Rules: collections-and-rules.md
+  - Working with Records: working-with-records.md
+  - Users and Logins: users-and-logins.md
+  - Files: files.md
+  - Realtime: realtime.md
+  - Hooks and Migrations: hooks-and-migrations.md
+  - Recipes: recipes.md
+  - The Neighbours: the-neighbours.md
+  - Limits: limits.md
+  - Troubleshooting: troubleshooting.md
+  - Glossary: glossary.md
+  - Writing Criteria: criteria.md

@@ -1,0 +1,15 @@
+$ sha256sum cover.png   (a 4x4 teal PNG made in the lab)
+53e633e02f469c0d28f381eb893ef68ee95fb8281ba255a7db1d71e48ae9dde7  cover.png
+cover.png: PNG image data, 4 x 4, 8-bit/color RGB, non-interlaced
+
+$ curl -s -X PATCH .../books/records/<book> -H "Authorization: <Ada token>" -F cover=@cover.png   # multipart upload into the file field
+{"id":"i3sx61mdseu5sne","title":"The Left Hand of Darkness","cover":"cover_ucg8essb2t.png"}
+
+$ curl -s -o fetched-cover.png ".../api/files/books/<book>/cover_ucg8essb2t.png" && sha256sum fetched-cover.png
+53e633e02f469c0d28f381eb893ef68ee95fb8281ba255a7db1d71e48ae9dde7  fetched-cover.png
+# identical hash: the bytes that came back are the bytes that went up
+
+$ ls pb_data/storage   (where uploads live on disk, one folder per collection)
+pbc_2170393721
+pb_data/storage/pbc_2170393721/i3sx61mdseu5sne/cover_ucg8essb2t.png.attrs
+pb_data/storage/pbc_2170393721/i3sx61mdseu5sne/cover_ucg8essb2t.png
